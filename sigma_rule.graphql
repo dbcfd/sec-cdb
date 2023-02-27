@@ -1,0 +1,65 @@
+enum Relatedtype {
+  Derived,
+  Obsoletes,
+  Merged,
+  Renamed,
+  Similar
+}
+
+type Related {
+  id: ID
+  type: RelatedType
+}
+
+enum Status {
+  Stable,
+  Test,
+  Experimental,
+  Deprecated,
+  Unsupported
+}
+
+type LogSource {
+  """examples: firewall, web, antivirus"""
+  category: String @string(minLength: 3, maxLength: 50)
+  """examples: windows, apache, check point fw1"""
+  product: String @string(minLength: 3, maxLength: 50)
+  """examples: sshd, applocker"""
+  service: String @string(minLength: 3, maxLength: 50)
+  definition: String @string(minLength: 3, maxLength: 50)
+}
+
+type Selection {
+  image: String! @string(minLength: 3, maxLength: 50)
+}
+
+scalar JsonObject
+
+type JsonEntry {
+  key: String!
+  value: JsonObject
+}
+
+enum Level {
+  Low,
+  Medium,
+  High
+}
+
+type SigmaRule @createModel(accountRelation: LIST, description: "https://github.com/SigmaHQ/sigma") {
+  title: String! @string(minLength: 3, maxLength: 50)
+  id: ID
+  related: Related
+  status: Status
+  description: String @string(minLength: 3, maxLength: 50)
+  references: [String] @string(minLength: 3, maxLength: 50)
+  author: String @string(minLength: 3, maxLength: 50)
+  date: Date
+  modified: Date
+  tags: [String] @string(minLength: 3, maxLength: 50)
+  logsource: LogSource
+  detection: [JsonEntry]
+  fields: [String]
+  falsepositives: [String]
+  level: Level  
+}
