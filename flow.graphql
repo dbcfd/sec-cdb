@@ -1,0 +1,24 @@
+type DeviceStatistics {
+    packets: Int!
+    bytes: Int!
+}
+
+type Statistics {
+    source: DeviceStatistics!
+    destination: DeviceStatistics!
+}
+
+type Device {
+    """ Should be a custom scalar """
+    ip: String @string(minLength: 7, maxLength: 39)
+    port: Int
+    """ Should be a custom scalar """
+    mac: String! @string(minLength: 17, maxLength: 17)
+}
+
+type Flow @createModel(accountRelation: LIST, description: "Connection between 2 devices in a network") {
+    flow_id: ID!
+    source: Device!
+    destination: Device!
+    statistics: Statistics!
+}

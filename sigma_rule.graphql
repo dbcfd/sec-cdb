@@ -1,8 +1,8 @@
-enum Relatedtype {
-  Derived,
-  Obsoletes,
-  Merged,
-  Renamed,
+enum RelatedType {
+  Derived
+  Obsoletes
+  Merged
+  Renamed
   Similar
 }
 
@@ -12,10 +12,10 @@ type Related {
 }
 
 enum Status {
-  Stable,
-  Test,
-  Experimental,
-  Deprecated,
+  Stable
+  Test
+  Experimental
+  Deprecated
   Unsupported
 }
 
@@ -33,33 +33,32 @@ type Selection {
   image: String! @string(minLength: 3, maxLength: 50)
 }
 
-scalar JsonObject
-
+"""scalar JsonObject, JsonEntry should have value: JsonObject"""
 type JsonEntry {
-  key: String!
-  value: JsonObject
+  key: String! @string(minLength: 3, maxLength: 50)
 }
 
 enum Level {
-  Low,
-  Medium,
+  Low
+  Medium
   High
 }
 
 type SigmaRule @createModel(accountRelation: LIST, description: "https://github.com/SigmaHQ/sigma") {
+  creator: DID! @accountReference
   title: String! @string(minLength: 3, maxLength: 50)
-  id: ID
+  rule_id: ID!
   related: Related
   status: Status
   description: String @string(minLength: 3, maxLength: 50)
-  references: [String] @string(minLength: 3, maxLength: 50)
+  references: [String!] @string(minLength: 3, maxLength: 50) @list(maxLength: 30)
   author: String @string(minLength: 3, maxLength: 50)
   date: Date
   modified: Date
-  tags: [String] @string(minLength: 3, maxLength: 50)
+  tags: [String!] @string(minLength: 3, maxLength: 50) @list(maxLength: 30)
   logsource: LogSource
-  detection: [JsonEntry]
-  fields: [String]
-  falsepositives: [String]
+  detection: [JsonEntry!] @list(maxLength: 30)
+  fields: [String!] @string(minLength: 3, maxLength: 50) @list(maxLength: 30)
+  falsepositives: [String!] @string(minLength: 3, maxLength: 50) @list(maxLength: 30)
   level: Level  
 }

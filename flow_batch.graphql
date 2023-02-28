@@ -1,0 +1,8 @@
+type Flow @loadModel(id: "kjzl6hvfrbw6c635y1js9ptfm72iou3j21rww58ew1n8l9ffvo3oac4nn2prbdw") {
+    id: ID!
+}
+
+type FlowBatch @createModel(accountRelation: LIST, description: "https://github.com/SigmaHQ/sigma") {
+    reporter: DID! @accountReference
+    flows: [Flow!]! @relationFrom(model: "Flow", property: "flowID")
+}

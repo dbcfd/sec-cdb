@@ -1,0 +1,4 @@
+type Event @createModel(accountRelation: LIST, description: "Security event that results from a rule firing on a flow") {
+    flowID: StreamID! @documentReference(model: "Flow")
+    ruleID: StreamID! @documentReference(model: "Rule")
+}
